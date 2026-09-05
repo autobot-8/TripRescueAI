@@ -1,4 +1,10 @@
 import { useState } from "react";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    useNavigate,
+} from "react-router-dom";
 
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -6,8 +12,8 @@ import Itinerary from "./pages/Itinerary";
 import Disruption from "./pages/Disruption";
 import Recovery from "./pages/Recovery";
 
-function App() {
-    const [page, setPage] = useState("home");
+function AppContent() {
+    const navigate = useNavigate();
 
     const [recoveryPlans, setRecoveryPlans] = useState([]);
     const [selectedDisruption, setSelectedDisruption] =
@@ -28,19 +34,31 @@ function App() {
         });
 
     const goHome = () => {
-        setPage("home");
+        navigate("/");
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 50);
     };
 
     const goDashboard = () => {
-        setPage("dashboard");
+        navigate("/dashboard");
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 50);
     };
 
     const goItinerary = () => {
-        setPage("itinerary");
+        navigate("/itinerary");
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 50);
     };
 
     const goDisruption = () => {
-        setPage("disruption");
+        navigate("/disruption");
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+        }, 50);
     };
 
     const openRecovery = (
@@ -61,7 +79,7 @@ function App() {
         setSelectedPlan(null);
         setRecovered(false);
 
-        setPage("recovery");
+        navigate("/recovery");
     };
 
     const selectRecoveryPlan = (plan) => {
@@ -73,71 +91,96 @@ function App() {
         }, 2800);
     };
 
-    /*
-     * LANDING PAGE
-     */
-    if (page === "home") {
-        return (
-            <Home
-                onEnterApp={goDashboard}
-            />
-        );
-    }
-
-    /*
-     * RECOVERY
-     */
-    if (page === "recovery") {
-        return (
-            <Recovery
-                plans={recoveryPlans}
-                disruption={selectedDisruption}
-                selectedPlan={selectedPlan}
-                recovered={recovered}
-                aiAnalysis={aiAnalysis}
-                onBack={goDisruption}
-                onSelectPlan={selectRecoveryPlan}
-                onViewItinerary={goItinerary}
-            />
-        );
-    }
-
-    /*
-     * DISRUPTION
-     */
-    if (page === "disruption") {
-        return (
-            <Disruption
-                onBack={goDashboard}
-                onFindRecovery={openRecovery}
-                tripPreferences={tripPreferences}
-            />
-        );
-    }
-
-    /*
-     * ITINERARY
-     */
-    if (page === "itinerary") {
-        return (
-            <Itinerary
-                onBack={goDashboard}
-                onOpenDisruption={goDisruption}
-                selectedPlan={selectedPlan}
-                recovered={recovered}
-            />
-        );
-    }
-
-    /*
-     * DASHBOARD
-     */
     return (
-        <Dashboard
-            onOpenDisruption={goDisruption}
-            onOpenJourney={goItinerary}
-            onPreferencesChange={setTripPreferences}
-        />
+        <Routes>
+            {/* HOMEPAGE */}
+            <Route
+                path="/"
+                element={
+                    <Home
+                        onEnterApp={goDashboard}
+                    />
+                }
+            />
+
+            {/* DASHBOARD */}
+            <Route
+                path="/dashboard"
+                element={
+                    <Dashboard
+                        onOpenDisruption={goDisruption}
+                        onOpenJourney={goItinerary}
+                        onPreferencesChange={
+                            setTripPreferences
+                        }
+                    />
+                }
+            />
+
+            {/* ITINERARY */}
+            <Route
+                path="/itinerary"
+                element={
+                    <Itinerary
+                        onBack={goDashboard}
+                        onOpenDisruption={
+                            goDisruption
+                        }
+                        selectedPlan={selectedPlan}
+                        recovered={recovered}
+                    />
+                }
+            />
+
+            {/* DISRUPTION CENTER */}
+            <Route
+                path="/disruption"
+                element={
+                    <Disruption
+                        onBack={goDashboard}
+                        onFindRecovery={
+                            openRecovery
+                        }
+                        tripPreferences={
+                            tripPreferences
+                        }
+                    />
+                }
+            />
+
+            {/* RECOVERY CENTER */}
+            <Route
+                path="/recovery"
+                element={
+                    <Recovery
+                        plans={recoveryPlans}
+                        disruption={
+                            selectedDisruption
+                        }
+                        selectedPlan={
+                            selectedPlan
+                        }
+                        recovered={recovered}
+                        aiAnalysis={aiAnalysis}
+                        onBack={goDisruption}
+                        onSelectPlan={
+                            selectRecoveryPlan
+                        }
+                        onViewItinerary={
+                            goItinerary
+                        }
+                    />
+                }
+            />
+        </Routes>
+    );
+}
+
+function App() {
+    return (
+        <BrowserRouter>
+            <AppContent />
+        </BrowserRouter>
     );
 }
 
