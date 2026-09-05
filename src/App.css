@@ -8133,3 +8133,62 @@ a {
 .recovery-plan-card.recommended .plan-select-button svg {
   color: inherit !important;
 }
+
+/* =========================================================
+   MOBILE IMAGE VISIBILITY FIX
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .hero-image,
+  .destination-main,
+  .destination-small,
+  .protection-visual,
+  .final-image,
+  .journey-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden;
+  }
+
+  .hero-image img,
+  .destination-main img,
+  .destination-small img,
+  .protection-visual img,
+  .final-image img,
+  .journey-image img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .hero-image {
+    min-height: 100% !important;
+  }
+
+  .destination-main {
+    min-height: 430px !important;
+  }
+
+  .destination-small {
+    min-height: 300px !important;
+  }
+
+  .protection-visual {
+    min-height: 550px !important;
+  }
+
+  .final-image {
+    min-height: 420px !important;
+  }
+
+  .journey-image {
+    min-height: 350px !important;
+  }
+}
